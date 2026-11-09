@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hidra Tecnical — Equipo médico endoscópico</title>
+<meta name="description" content="Equipo médico endoscópico: venta, mantenimiento y renta. Torres, ópticas e instrumental Pentax, Fujinon, Olympus, Storz y Stryker.">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#0A0A0A; --g2:#0F0F11; --panel:#18181B; --ink:#fff; --mut:#71717A; --soft:#A1A1AA;
+  --acc:#6366F1; --acc-d:#4338CA; --h1:rgba(255,255,255,.10); --h2:rgba(255,255,255,.06);
+  --max:1152px; --gut:clamp(20px,5vw,64px); --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--g);color-scheme:dark}
+body{background:var(--g);color:var(--ink);font:300 16px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+canvas{display:block}
+.mono,.eyebrow,.meta,.chip,footer{font:300 11px/1.4 'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.1em}
+.wrap{max-width:calc(var(--max) + 2*var(--gut));margin:0 auto;padding:0 var(--gut)}
+
+/* intro */
+#intro{position:fixed;inset:0;z-index:100;background:var(--g);display:grid;place-items:center;transition:opacity .5s ease,visibility 0s linear .5s}
+#intro p{font-size:clamp(2.2rem,7vw,5rem);letter-spacing:-.05em;font-weight:300;opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+#intro.in p{opacity:1;transform:none}
+#intro.lift p{opacity:0;transform:translateY(-14px)}
+#intro.out{opacity:0;visibility:hidden}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,10,10,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--h2)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:24px}
+.mark{font-size:17px;letter-spacing:-.03em;font-weight:400}
+.mark b{font-weight:400;color:var(--acc)}
+nav ul{display:flex;gap:28px;list-style:none}
+nav ul a{color:var(--soft);transition:color .2s}
+nav ul a:hover{color:var(--ink)}
+@media (max-width:760px){nav ul{display:none}}
+
+/* buttons */
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid var(--h1);font:300 11px/1 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;transition:background .2s,border-color .2s}
+.btn:hover{border-color:rgba(255,255,255,.3)}
+.btn.p{background:var(--acc);border-color:var(--acc)}
+.btn.p:hover{background:#5558e8}
+.btn.p:active{background:var(--acc-d);border-color:var(--acc-d)}
+.btn.s{height:36px;padding:0 14px}
+
+/* hero */
+.hero{position:relative;min-height:100svh;overflow:hidden;display:flex;align-items:flex-end}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 35%,rgba(10,10,10,.94) 100%),radial-gradient(130% 100% at 50% 40%,transparent 50%,rgba(10,10,10,.6) 100%)}
+.hero .wrap{position:relative;width:100%;padding-bottom:clamp(40px,8vh,88px);padding-top:120px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;color:rgba(255,255,255,.74);padding-bottom:14px;border-bottom:1px solid var(--h1);margin-bottom:clamp(16px,3vh,32px)}
+h1{font-weight:300;font-size:clamp(4rem,13vw,12rem);line-height:.86;letter-spacing:-.05em;margin-bottom:clamp(28px,4vh,44px)}
+h1 .ln{display:block}
+h1 .c{display:inline-block;opacity:0;transform:translateY(.32em);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+body.go h1 .c{opacity:1;transform:none}
+.hero-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
+.hero-foot p{max-width:44ch;color:var(--soft);font-size:15px;line-height:1.7}
+
+/* bands */
+section.band{border-top:1px solid var(--h2);padding:clamp(72px,11vw,140px) 0}
+.eyebrow{display:flex;align-items:center;gap:16px;color:var(--mut);margin-bottom:clamp(28px,4vw,48px)}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--h1)}
+.head{display:grid;grid-template-columns:1fr 1fr;gap:32px 64px;align-items:end;margin-bottom:clamp(40px,6vw,72px)}
+h2{font-weight:300;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1;letter-spacing:-.04em;max-width:20ch}
+.lede{font-size:15px;line-height:1.7;color:var(--soft);max-width:46ch}
+@media (max-width:820px){.head{grid-template-columns:1fr}}
+
+.grid{display:grid;gap:1px;background:var(--h1);border:1px solid var(--h1)}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}}
+.grid>*{background:var(--g);min-width:0}
+
+/* service + maintenance panels (inside horizontal tracks) */
+.pan p{font-size:15px;line-height:1.7;color:var(--soft);max-width:40ch}
+.pan.svc canvas{width:100%;height:110px}
+.pan .logos{grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;column-gap:1px;background:var(--h1);border:1px solid var(--h1)}
+.pan .logos li{background:var(--g2);display:grid;place-items:center;height:76px;padding:16px 20px;border:0}
+.logos img[alt="Karl Storz"]{max-height:40px}
+.logos li:nth-child(4){grid-column:span 2}
+.logos img{max-width:100%;max-height:26px;opacity:.72}
+.ph{display:block;width:100%;height:clamp(96px,16vh,170px);object-fit:contain;object-position:left center;filter:grayscale(1) brightness(.92)}
+.ph.cov{object-fit:cover;object-position:center;border:1px solid var(--h1)}
+@media (max-height:760px){.hs:not(.native) .ph{display:none}}
+.pan.wide{width:min(86vw,760px)}
+
+/* spectrum */
+.field{position:relative;flex:1;min-height:200px;border:1px solid var(--h1);background:var(--g2)}
+.field canvas{width:100%;height:100%}
+.field .cap,.field .ro{position:absolute;bottom:14px}
+.field .cap{left:16px;color:var(--mut)}
+.field .ro{right:16px;color:var(--acc)}
+@media (max-width:560px){.field .hm{display:none}}
+
+/* catalog: horizontal scroll section (pinned; vertical scroll drives the track) */
+.hs{border-top:1px solid var(--h2);position:relative}
+.hs-pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3.5vh,36px);overflow:hidden;padding-top:60px}
+.hs .eyebrow{margin-bottom:clamp(16px,3vh,32px)}
+.hs .head{margin-bottom:0}
+.hs-pin>.wrap,.hs-view{width:100%}
+.hs[data-dir=ltr] .hs-track{flex-direction:row-reverse}
+.hs.native .hs-track{flex-direction:row}
+.hs-track{display:flex;gap:1px;width:max-content;background:var(--h1);border:1px solid var(--h1);margin:0 max(var(--gut),calc((100vw - var(--max))/2));will-change:transform}
+.pan{flex:none;width:min(78vw,520px);min-height:min(46vh,420px);background:var(--g);padding:28px;display:flex;flex-direction:column;gap:18px}
+.pan .i{color:var(--mut)}
+.pan h3{font-weight:300;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.04em;line-height:1}
+.pan ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;color:var(--soft)}
+.pan li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--h2)}
+.pan li span{color:var(--mut)}
+.pan ul.dl{grid-template-columns:1fr}
+.pan .dl a{display:flex;gap:12px;width:100%;transition:color .2s}
+.pan .dl a:hover{color:var(--ink)}
+.pan .btn{margin-top:auto;align-self:flex-start}
+.hs-foot{display:flex;align-items:center;gap:16px;color:var(--mut)}
+.hs-bar{flex:1;height:1px;background:var(--h1);position:relative}
+.hs-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink)}
+/* native fallback: phones, short screens, reduced motion */
+.hs.native .hs-pin{position:static;height:auto;padding:clamp(72px,11vw,140px) 0}
+.hs.native .hs-view{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.hs.native .hs-view::-webkit-scrollbar{display:none}
+.hs.native .pan{scroll-snap-align:center}
+@media (max-width:560px){.pan ul{grid-template-columns:1fr}}
+
+/* stats */
+.stat{padding:28px 24px}
+.stat .n{font-weight:300;font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.04em;line-height:1;margin-bottom:12px}
+.stat .n em{font-style:normal;color:var(--acc)}
+.stat .n small{font-size:.42em;letter-spacing:-.02em;color:var(--soft)}
+.stat p{font-size:12.5px;line-height:1.55;color:var(--mut)}
+.hero-foot p b{display:block;font-weight:400;font-size:18px;color:#fff;letter-spacing:-.01em;margin-bottom:8px}
+
+/* timeline */
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:820px){.g3{grid-template-columns:1fr}}
+.tl{list-style:none;margin-top:32px}
+.tl li{padding:28px 24px}
+.tl .mono{display:block;color:var(--mut);margin-bottom:16px}
+.tl h3{font-weight:300;font-size:22px;letter-spacing:-.02em;margin-bottom:10px}
+.tl p{font-size:13.5px;line-height:1.65;color:var(--soft)}
+
+/* faq */
+.faq details{border-bottom:1px solid var(--h1)}
+.faq details:first-child{border-top:1px solid var(--h1)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;font-size:17px;transition:color .2s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--acc)}
+.pl{position:relative;width:13px;height:13px;flex:none}
+.pl::before,.pl::after{content:"";position:absolute;background:currentColor;transition:transform .3s var(--ease)}
+.pl::before{left:0;right:0;top:6px;height:1px}
+.pl::after{top:0;bottom:0;left:6px;width:1px}
+details[open] .pl::after{transform:scaleY(0)}
+.faq details p{padding:0 0 24px;max-width:64ch;color:var(--soft);font-size:15px;line-height:1.7}
+
+/* close */
+.close{text-align:center}
+.close h2{font-size:clamp(2.4rem,7vw,5.4rem);max-width:16ch;margin:0 auto 20px}
+.close .lede{margin:0 auto 36px}
+.close .btns{justify-content:center}
+footer{border-top:1px solid var(--h2);color:var(--mut)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;padding-top:28px;padding-bottom:28px}
+footer nav{all:unset;display:flex;flex-wrap:wrap;gap:12px 24px}
+footer a:hover{color:var(--ink)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.on{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  #intro{display:none}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .rv,h1 .c{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="intro" aria-hidden="true"><p>endoscopia, sin pausa.</p></div>
+
+<nav aria-label="Principal">
+  <div class="wrap">
+    <a class="mark" href="#top">Hidra <b>Tecnical</b></a>
+    <ul class="mono">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#mantenimiento">Mantenimiento</a></li>
+      <li><a href="#catalogos">Catálogos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="btn p s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener">Cotizar</a>
+  </div>
+</nav>
+
+<main id="top">
+<header class="hero">
+  <canvas id="sh" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <div class="wrap">
+    <div class="meta"><span>Equipo médico endoscópico</span><span>Venta · Mantenimiento · Renta</span><span>Desde hace 25 años</span></div>
+    <h1 id="hl" aria-label="Hidra Tecnical"><span class="ln">Hidra</span><span class="ln">Tecnical</span></h1>
+    <div class="hero-foot">
+      <p><b>Visión clara para cada procedimiento.</b>Soluciones completas en endoscopia, laparoscopia, histeroscopia y urología: equipo, instrumental y servicio técnico con las marcas más reconocidas del mundo, con garantía nacional.</p>
+      <div class="btns">
+        <a class="btn p" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener">Cotizar por WhatsApp</a>
+        <a class="btn" href="#catalogos">Ver catálogo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hs" id="servicios" data-dir="ltr" aria-label="Servicios">
+  <div class="hs-pin">
+    <div class="wrap">
+      <div class="eyebrow">01 · Servicios</div>
+      <div class="head">
+        <h2>Tres formas de mantener tu equipo funcionando</h2>
+        <p class="lede">Compra, mantenimiento o renta: cada servicio está pensado para que tu unidad pase el menor tiempo posible fuera de operación.</p>
+      </div>
+    </div>
+    <div class="hs-view">
+      <div class="hs-track">
+      <article class="pan svc"><span class="i mono">01 / 05</span><canvas data-a="wave"></canvas>
+        <h3>Venta</h3><p>Torres, ópticas e instrumental nuevo y reacondicionado, con garantía y asesoría de compra.</p></article>
+      <article class="pan svc"><span class="i mono">02 / 05</span><canvas data-a="grid"></canvas>
+        <h3>Mantenimiento</h3><p>Servicio técnico especializado con diagnóstico y refacciones originales para volver a operar pronto.</p></article>
+      <article class="pan svc"><span class="i mono">03 / 05</span><canvas data-a="lines"></canvas>
+        <h3>Renta</h3><p>Equipo por procedimiento, campaña o periodo extendido; ideal para picos de demanda o reparaciones.</p></article>
+      <article class="pan svc"><span class="i mono">04 / 05</span><canvas data-a="ring"></canvas>
+        <h3>Calidad y seguridad</h3><p>25 años en equipo médico endoscópico. No improvisamos: lo conocemos desde adentro.</p></article>
+      <article class="pan svc"><span class="i mono">05 / 05</span><h3>Marcas con las que trabajamos</h3>
+        <ul class="logos"><li><img src="img/marcas/pentax.png" alt="Pentax" loading="lazy"></li><li><img src="img/marcas/fujinon.png" alt="Fujinon" loading="lazy"></li><li><img src="img/marcas/olympus.png" alt="Olympus" loading="lazy"></li><li><img src="img/marcas/karl-storz.png" alt="Karl Storz" loading="lazy"></li><li><img src="img/marcas/stryker.png" alt="Stryker" loading="lazy"></li></ul>
+        <p>Equipo nuevo y reacondicionado de las cinco marcas, con garantía y asesoría de compra.</p></article>
+      </div>
+    </div>
+    <div class="wrap hs-foot mono"><span class="hs-n">01 / 05</span><span class="hs-bar"><i></i></span><span class="hs-hint">Desliza</span></div>
+  </div>
+</section>
+
+<section class="hs" id="mantenimiento" aria-label="Mantenimiento">
+  <div class="hs-pin">
+    <div class="wrap">
+      <div class="eyebrow">02 · Mantenimiento</div>
+      <div class="head">
+        <h2>Menos tiempo fuera de operación</h2>
+        <p class="lede">Nuestro servicio técnico especializado diagnostica el componente exacto que falla y lo repara con refacciones originales. El resto de tu torre conserva su configuración y vuelve a operar antes.</p>
+      </div>
+    </div>
+    <div class="hs-view">
+      <div class="hs-track">
+      <article class="pan wide"><span class="i mono">01 / 04 · Diagnóstico</span>
+      <div class="field" id="field">
+      <canvas id="sp" aria-hidden="true"></canvas>
+      <span class="cap mono">Diagnóstico<span class="hm"> por componente</span></span>
+      <span class="ro mono" id="ro">Módulo 12–32 · 0.00</span>
+    </div></article>
+      <article class="pan"><span class="i mono">02 / 04</span><img class="ph cov" src="img/equipos/tarjeta-electronica.webp" alt="Tarjeta electrónica de un equipo endoscópico en reparación" loading="lazy"><h3>Refacciones originales</h3>
+        <p>Cada reparación se hace con refacciones originales, para que el equipo conserve su desempeño y su configuración.</p></article>
+      <article class="pan"><span class="i mono">03 / 04</span><h3>Servicio técnico especializado</h3>
+        <p>Técnicos dedicados a equipo médico endoscópico. Reducimos el tiempo que tu equipo pasa fuera de operación.</p></article>
+      <article class="pan"><span class="i mono">04 / 04</span><h3>Renta mientras reparamos</h3>
+        <p>Si tu unidad no puede detenerse, te rentamos equipo mientras se resuelve la reparación.</p>
+        <a class="btn s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20necesito%20mantenimiento%20para%20mi%20equipo." target="_blank" rel="noopener">Solicitar mantenimiento</a></article>
+      </div>
+    </div>
+    <div class="wrap hs-foot mono"><span class="hs-n">01 / 04</span><span class="hs-bar"><i></i></span><span class="hs-hint">Desliza</span></div>
+  </div>
+</section>
+
+<section class="hs" id="catalogos" aria-label="Catálogos">
+  <div class="hs-pin">
+    <div class="wrap">
+      <div class="eyebrow">03 · Catálogos</div>
+      <div class="head">
+        <h2>Todo para tu unidad de endoscopia</h2>
+        <p class="lede">Explora nuestra galería de equipo hospitalario por especialidad y descarga el catálogo completo en PDF.</p>
+      </div>
+    </div>
+    <div class="hs-view">
+      <div class="hs-track">
+      <article class="pan"><span class="i mono">01 / 04</span><img class="ph" src="img/equipos/torre-endoscopia.webp" alt="Torre de endoscopia" loading="lazy"><h3>Endoscopia</h3>
+        <ul class="mono"><li><span>01</span>Torres</li><li><span>02</span>Duodenoscopios</li><li><span>03</span>Gastroscopios</li><li><span>04</span>Colonoscopios</li><li><span>05</span>Irrigadores</li><li><span>06</span>Camillas</li></ul>
+        <a class="btn s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20cotizar%20equipo%20de%20endoscopia." target="_blank" rel="noopener">Cotizar endoscopia</a></article>
+      <article class="pan"><span class="i mono">02 / 04</span><img class="ph" src="img/equipos/stryker-1588.webp" alt="Sistema de laparoscopia Stryker 1588" loading="lazy"><h3>Laparoscopia</h3>
+        <ul class="mono"><li><span>01</span>Cámaras</li><li><span>02</span>Fuente de luz</li><li><span>03</span>Insufladores</li><li><span>04</span>Carts</li><li><span>05</span>Monitores</li><li><span>06</span>Electrocauterios</li><li><span>07</span>Energía</li><li><span>08</span>Instrumental</li></ul>
+        <a class="btn s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20cotizar%20equipo%20de%20laparoscopia." target="_blank" rel="noopener">Cotizar laparoscopia</a></article>
+      <article class="pan"><span class="i mono">03 / 04</span><h3>Endourología e histeroscopia</h3>
+        <ul class="mono"><li><span>01</span>Cistoscopios</li><li><span>02</span>Resectoscopios</li><li><span>03</span>Lentes</li><li><span>04</span>Electrodos</li></ul>
+        <a class="btn s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20cotizar%20equipo%20de%20endourolog%C3%ADa%20e%20histeroscopia." target="_blank" rel="noopener">Cotizar endourología</a></article>
+      <article class="pan"><span class="i mono">04 / 04</span><h3>Descargas</h3>
+        <ul class="mono dl">
+          <li><a href="https://img1.wsimg.com/blobby/go/dc69b0d3-1e8c-48fc-af21-a3c8b2dea888/Cat%C3%A1logo_Endo%20y%20Laparo_Hidra%20Tecnical_2026-v1..pdf" target="_blank" rel="noopener"><span>PDF</span>Catálogo de equipos</a></li>
+          <li><a href="https://img1.wsimg.com/blobby/go/dc69b0d3-1e8c-48fc-af21-a3c8b2dea888/Cat%C3%A1logo_Instrumental%20Laparo_Hidra%20Tecnical_V1.pdf" target="_blank" rel="noopener"><span>PDF</span>Catálogo de instrumental</a></li>
+          <li><a href="https://img1.wsimg.com/blobby/go/dc69b0d3-1e8c-48fc-af21-a3c8b2dea888/Cat%C3%A1logo_Laparoscopia_Ginecologica_Hidra%20Tecni.pdf" target="_blank" rel="noopener"><span>PDF</span>Catálogo de laparoscopia ginecológica</a></li>
+        </ul>
+        <a class="btn s" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20no%20encuentro%20un%20modelo%20en%20el%20cat%C3%A1logo." target="_blank" rel="noopener">¿No está tu modelo? Pregúntanos</a></article>
+      </div>
+    </div>
+    <div class="wrap hs-foot mono"><span class="hs-n">01 / 04</span><span class="hs-bar"><i></i></span><span class="hs-hint">Desliza</span></div>
+  </div>
+</section>
+
+<section class="band" id="nosotros">
+  <div class="wrap">
+    <div class="eyebrow rv">04 · Nosotros</div>
+    <div class="head rv">
+      <h2>Trayectoria: 25 años en el sector</h2>
+      <p class="lede">Detrás de Hidra Tecnical está la experiencia del Arq. Cristóbal López Guillén: 25 años en tecnología médica. Servicio personalizado, profesionales experimentados y resultados comprobados.</p>
+    </div>
+    <div class="grid g4 rv">
+      <div class="stat"><div class="n"><em>25</em><small> años</small></div><p>de trayectoria en equipo médico endoscópico.</p></div>
+      <div class="stat"><div class="n"><em>5</em><small> marcas</small></div><p>Pentax, Fujinon, Olympus, Storz y Stryker.</p></div>
+      <div class="stat"><div class="n"><em>3</em><small> servicios</small></div><p>Venta, mantenimiento y renta de equipo.</p></div>
+      <div class="stat"><div class="n"><em>3</em><small> especialidades</small></div><p>Endoscopia, laparoscopia y endourología.</p></div>
+    </div>
+    <ol class="grid g3 tl rv">
+      <li><span class="mono">Los inicios</span><h3>INSCIMI y Endoservice</h3><p>El Arq. Cristóbal López Guillén comienza su carrera en tecnología médica en INSCIMI y Endoservice de México.</p></li>
+      <li><span class="mono">2015</span><h3>Fundación de Hidra Tecnical</h3><p>Nace una empresa enfocada en la venta, renta y mantenimiento de equipo de endoscopia y laparoscopia.</p></li>
+      <li><span class="mono">2015 — hoy</span><h3>Hacia dónde vamos</h3><p>Ser la empresa líder en México en distribución y renta de equipo médico para procedimientos endoscópicos, por innovación, servicio y compromiso con el sector salud.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="eyebrow rv">05 · Preguntas frecuentes</div>
+    <div class="head rv">
+      <h2>Por qué trabajar con nosotros</h2>
+      <p class="lede">Lo que suelen preguntarnos antes de cotizar. ¿Tienes otra duda? Habla directamente con uno de nuestros asesores.</p>
+    </div>
+    <div class="faq rv">
+      <details><summary>¿Qué marcas manejan?<span class="pl"></span></summary><p>Trabajamos con Pentax, Fujinon, Olympus, Storz y Stryker: torres, ópticas e instrumental nuevo y reacondicionado.</p></details>
+      <details><summary>¿El equipo reacondicionado tiene garantía?<span class="pl"></span></summary><p>Sí. Todo equipo de venta, nuevo o reacondicionado, incluye garantía y asesoría de compra para elegir la configuración adecuada a tu unidad.</p></details>
+      <details><summary>¿Qué incluye el mantenimiento?<span class="pl"></span></summary><p>Servicio técnico especializado con diagnóstico y refacciones originales, enfocado en reducir el tiempo que tu equipo pasa fuera de operación.</p></details>
+      <details><summary>¿Puedo rentar equipo?<span class="pl"></span></summary><p>Sí, por procedimiento, por campaña o por periodo extendido. Es ideal para picos de demanda o mientras se resuelve la reparación de tu propio equipo.</p></details>
+      <details><summary>¿Cómo pido una cotización?<span class="pl"></span></summary><p>Escríbenos por WhatsApp al +52 333 811 7858, llámanos o envía un correo a hidratecnical@gmail.com. Te responde directamente un asesor con servicio personalizado.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="band close" id="contacto">
+  <div class="wrap rv">
+    <div class="eyebrow">06 · Contacto</div>
+    <h2>¿Necesitas un equipo? Escríbenos.</h2>
+    <p class="lede">Hagamos un trato: habla directamente con uno de nuestros asesores. También en hidratecnical@gmail.com</p>
+    <div class="btns">
+      <a class="btn p" href="https://wa.me/523338117858?text=Hola%20Hidra%20Tecnical%2C%20quiero%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      <a class="btn" href="tel:+523338117858">Llámanos · +52 333 811 7858</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Hidra Tecnical · Todos los derechos reservados</span>
+    <nav aria-label="Pie">
+      <a href="mailto:hidratecnical@gmail.com">Correo</a>
+      <a href="https://wa.me/523338063955" target="_blank" rel="noopener">WhatsApp +52 333 806 3955</a>
+      <a href="https://www.instagram.com/hidratecnical" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.x.com/hidratecnical" target="_blank" rel="noopener">X</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(()=>{
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR = Math.min(devicePixelRatio||1, 2);
+
+/* headline glyphs */
+const hl = document.getElementById('hl');
+let gi=0;
+hl.querySelectorAll('.ln').forEach(ln=>{ln.setAttribute('aria-hidden','true');ln.innerHTML=[...ln.textContent].map(ch=>`<span class="c" style="transition-delay:${(gi++)*42}ms">${ch}</span>`).join('');});
+
+/* intro */
+const intro = document.getElementById('intro');
+if (RM) { document.body.classList.add('go'); }
+else {
+  // start only once the tab is actually on screen, so the intro isn't spent in a background tab
+  const run=()=>{
+    setTimeout(()=>intro.classList.add('in'),220);
+    setTimeout(()=>intro.classList.add('lift'),1500);
+    setTimeout(()=>{intro.classList.add('out');document.body.classList.add('go');},2050);
+  };
+  if (document.visibilityState==='visible') run();
+  else document.addEventListener('visibilitychange',run,{once:true});
+}
+
+/* canvas sizing helper */
+function fit(c){
+  const w=c.clientWidth, h=c.clientHeight;
+  if (c.width!==Math.round(w*DPR) || c.height!==Math.round(h*DPR)){ c.width=Math.round(w*DPR); c.height=Math.round(h*DPR); }
+  return [w,h];
+}
+function loop(draw){
+  if (RM){ draw(0); return; }
+  const f=t=>{draw(t/1000); requestAnimationFrame(f);}; requestAnimationFrame(f);
+}
+
+/* hero shader */
+const sh=document.getElementById('sh');
+const gl=sh.getContext('webgl',{premultipliedAlpha:true,antialias:false});
+if (gl){
+  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs=`precision highp float;uniform vec2 r;uniform float t;
+  float rib(vec2 uv,float f1,float f2,float ph,float off,float w){
+    float y=off+.075*sin(uv.x*f1+t*.35+ph)+.045*sin(uv.x*f2-t*.22+ph*1.7);
+    float d=abs(uv.y-y);
+    return (1.-smoothstep(0.,w,d))*.9+(1.-smoothstep(0.,w*5.,d))*.32;
+  }
+  void main(){
+    vec2 q=gl_FragCoord.xy/r; vec2 uv=vec2(q.x*r.x/r.y,q.y);
+    vec3 c=vec3(.39,.40,.95)*rib(uv,2.1,4.3,0.,.64,.038)
+          +vec3(.55,.36,.96)*rib(uv,1.6,3.7,2.1,.57,.032)
+          +vec3(.13,.78,.93)*rib(uv,2.7,5.1,4.2,.70,.026);
+    c+=vec3(.30,.31,.80)*.2*(1.-smoothstep(0.,.75,length(q-vec2(.5,.62))));
+    c=clamp(c,0.,1.);
+    gl_FragColor=vec4(c,clamp(c.r+c.g+c.b,0.,1.));
+  }`;
+  const mk=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;};
+  const pr=gl.createProgram();gl.attachShader(pr,mk(gl.VERTEX_SHADER,vs));gl.attachShader(pr,mk(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const ur=gl.getUniformLocation(pr,'r'), ut=gl.getUniformLocation(pr,'t');
+  let lost=false;
+  sh.addEventListener('webglcontextlost',()=>{lost=true;const c=sh.cloneNode();sh.replaceWith(c);ribbons2d(c);},{once:true});
+  loop(t=>{if(lost)return;fit(sh);gl.viewport(0,0,sh.width,sh.height);gl.uniform2f(ur,sh.width,sh.height);gl.uniform1f(ut,t+8.);gl.drawArrays(gl.TRIANGLES,0,3);});
+} else ribbons2d(sh);
+/* canvas-2D fallback: no GL, or GL context lost */
+function ribbons2d(sh){
+  const x=sh.getContext('2d');
+  const R=[['99,102,241',2.1,0,.36],['140,92,245',1.6,2.1,.43],['34,200,237',2.7,4.2,.30]];
+  loop(t=>{
+    const [w,h]=fit(sh); x.setTransform(DPR,0,0,DPR,0,0); x.clearRect(0,0,w,h);
+    x.globalCompositeOperation='lighter'; x.lineCap='round'; x.filter='blur(18px)'; x.lineWidth=Math.max(28,h*.05);
+    for(const [c,f,ph,off] of R){
+      x.strokeStyle=`rgba(${c},.55)`; x.beginPath();
+      for(let px=0;px<=w;px+=12){const u=px/h; const y=h*(off-.075*Math.sin(u*f+t*.35+ph)-.045*Math.sin(u*f*2-t*.22+ph*1.7)); px?x.lineTo(px,y):x.moveTo(px,y);}
+      x.stroke();
+    }
+  });
+}
+
+/* service tile canvases */
+const A={
+  wave(x,w,h,t){x.strokeStyle='rgba(255,255,255,.7)';x.lineWidth=1;x.beginPath();
+    for(let px=0;px<=w;px+=2){const env=.25+.75*Math.abs(Math.sin(px/w*Math.PI*1.5-t*.6));const y=h/2+Math.sin(px*.09-t*3)*env*h*.38;px?x.lineTo(px,y):x.moveTo(px,y);}x.stroke();},
+  grid(x,w,h,t){const cols=14,rows=2,g=4,bw=(w-g*(cols-1))/cols,bh=(h-g*(rows-1)-14)/rows;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const a=.08+.6*(.5+.5*Math.sin(t*1.6+c*.9+r*2.3));x.fillStyle=`rgba(255,255,255,${a.toFixed(3)})`;x.fillRect(c*(bw+g),7+r*(bh+g),bw,bh);}},
+  lines(x,w,h,t){for(let i=0;i<4;i++){x.strokeStyle=`rgba(255,255,255,${.18+i*.18})`;x.lineWidth=1;x.beginPath();const y0=h*(.2+i*.2);
+    for(let px=0;px<=w;px+=2){const y=y0+Math.sin(px*(.03+i*.018)-t*(1+i*.6))*h*.07;px?x.lineTo(px,y):x.moveTo(px,y);}x.stroke();}},
+  ring(x,w,h,t){const cx=w/2,cy=h/2,r=h*.4;x.lineWidth=1;x.strokeStyle='rgba(255,255,255,.14)';x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();
+    const a=t*1.4;x.strokeStyle='rgba(255,255,255,.8)';x.beginPath();x.arc(cx,cy,r,a,a+1.1);x.stroke();
+    x.fillStyle='rgba(255,255,255,.9)';x.beginPath();x.arc(cx,cy,2.5,0,7);x.fill();}
+};
+document.querySelectorAll('canvas[data-a]').forEach(c=>{
+  const x=c.getContext('2d'),fn=A[c.dataset.a];
+  loop(t=>{const [w,h]=fit(c);x.setTransform(DPR,0,0,DPR,0,0);x.clearRect(0,0,w,h);fn(x,w,h,t);});
+});
+
+/* spectrum field */
+const sp=document.getElementById('sp'), sx=sp.getContext('2d'), ro=document.getElementById('ro');
+const N=72, S0=Math.round(N*.16), S1=Math.round(N*.44)-1;
+let vis=false, raf=0;
+function drawSp(t){
+  const [w,h]=fit(sp); sx.setTransform(DPR,0,0,DPR,0,0); sx.clearRect(0,0,w,h);
+  const padX=16, top=h*.1, base=h-40, H=base-top, step=(w-padX*2)/N, bw=Math.max(1,step*.55);
+  let lvl=0;
+  for(let i=0;i<N;i++){
+    const u=(i+.5)/N, env=Math.sin(Math.PI*u);
+    let v=env*(.55+.25*Math.sin(i*.35+t*1.3)+.2*Math.sin(i*.11-t*.7));
+    const sel=i>=S0&&i<=S1;
+    if(sel){v=Math.max(v,.82+.1*Math.sin(i*.5+t*2));lvl+=v;}
+    v=Math.max(.02,Math.min(1,v));
+    sx.fillStyle=sel?'#6366F1':'rgba(255,255,255,.16)';
+    sx.fillRect(padX+i*step+(step-bw)/2,base-v*H,bw,v*H);
+  }
+  sx.strokeStyle='#6366F1'; sx.lineWidth=1;
+  sx.strokeRect(Math.round(padX+S0*step)-3.5,Math.round(top)-6.5,Math.round((S1-S0+1)*step)+6,Math.round(H)+6);
+  ro.textContent=`Módulo ${S0}–${S1} · ${(lvl/(S1-S0+1)).toFixed(2)}`;
+}
+if (RM) drawSp(0);
+else {
+  const f=t=>{drawSp(t/1000); raf=vis?requestAnimationFrame(f):0;};
+  new IntersectionObserver(([e])=>{vis=e.isIntersecting; if(vis&&!raf) raf=requestAnimationFrame(f);}).observe(sp);
+  drawSp(0);
+}
+
+
+/* horizontal sections: pin each .hs and map vertical scroll to its track.
+   data-dir="ltr" moves cards left->right (track is row-reversed, so card 01 starts on the right). */
+const pad=n=>String(n).padStart(2,'0');
+const HS=[...document.querySelectorAll('.hs')].map(sec=>({sec,track:sec.querySelector('.hs-track'),view:sec.querySelector('.hs-view'),
+  n:sec.querySelector('.hs-n'),bar:sec.querySelector('.hs-bar i'),ltr:sec.dataset.dir==='ltr',dist:0}));
+let native=true;
+function hsProgress(h,p){const N=h.track.children.length;h.bar.style.width=(p*100)+'%';h.n.textContent=pad(Math.min(N,Math.round(p*(N-1))+1))+' / '+pad(N);}
+function hsLayout(){
+  native = RM || innerWidth<820 || innerHeight<620;
+  HS.forEach(h=>{
+    h.sec.classList.toggle('native',native);
+    if(native){h.sec.style.height='';h.track.style.transform='';return;}
+    const cs=getComputedStyle(h.track);
+    h.dist=Math.max(0,h.track.offsetWidth+parseFloat(cs.marginLeft)+parseFloat(cs.marginRight)-h.view.clientWidth);
+    h.sec.style.height=(innerHeight+h.dist)+'px';
+  });
+  hsScroll();
+}
+function hsScroll(){
+  if(native) return;
+  HS.forEach(h=>{
+    if(!h.dist) return;
+    const p=Math.min(1,Math.max(0,-h.sec.getBoundingClientRect().top/h.dist));
+    h.track.style.transform=`translate3d(${h.ltr?-(1-p)*h.dist:-p*h.dist}px,0,0)`;
+    hsProgress(h,p);
+  });
+}
+HS.forEach(h=>h.view.addEventListener('scroll',()=>{if(native){const m=h.view.scrollWidth-h.view.clientWidth;hsProgress(h,m?h.view.scrollLeft/m:0);}},{passive:true}));
+addEventListener('scroll',hsScroll,{passive:true});
+addEventListener('resize',hsLayout);
+hsLayout();
+document.fonts&&document.fonts.ready.then(hsLayout);
+
+/* reveals */
+const rv=document.querySelectorAll('.rv');
+if (RM || !('IntersectionObserver' in window)) rv.forEach(el=>el.classList.add('on'));
+else {
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+  rv.forEach(el=>io.observe(el));
+}
+})();
+</script>
+</body>
+</html>
